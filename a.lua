@@ -1,5 +1,5 @@
 local sources = {}
-sources.Intro = ""
+sources.Intro = [====[
 local Intro = {}
 
 function Intro.Play()
@@ -44827,6 +44827,11 @@ local function requireModule(name)
 end
 local reloadPath
 local ok, result = xpcall(function()
+    local introOk, introError = pcall(function()
+        local played, message = requireModule("Intro").Play()
+        assert(played, message)
+    end)
+    if not introOk then warn("Resonance intro: " .. tostring(introError)) end
     if type(writefile) == "function" and type(readfile) == "function" then
         local success = pcall(function()
             local lines = {"local sources = {}"}
